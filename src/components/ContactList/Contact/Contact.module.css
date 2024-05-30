@@ -1,0 +1,29 @@
+.item {
+  display: flex;
+  padding: 12px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  min-width: 270px;
+  border: 1px solid black;
+}
+.button {
+  padding: 6px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+  color: #fff;
+  background: #e63232;
+}
+
+.button:hover {
+  background: #bf1010;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+}
