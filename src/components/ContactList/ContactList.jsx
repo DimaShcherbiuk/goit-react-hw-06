@@ -5,15 +5,10 @@ import { selectContacts, selectNameFilter } from "../../redux/selectors";
 
 const ContactList = () => {
   const contacts = useSelector(selectContacts);
-  const filters = useSelector(selectNameFilter);
-  const visibleContacts = contacts.filter(({ id, name, phone }) => {
-    return (
-      typeof id === "string" &&
-      typeof name === "string" &&
-      typeof phone === "string" &&
-      name.toLowerCase().includes(filters.toLowerCase())
-    );
-  });
+  const filter = useSelector(selectNameFilter);
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
   return (
     <ul className={css.list}>
       {visibleContacts.map(({ id, name, phone }) => {

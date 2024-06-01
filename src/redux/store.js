@@ -1,7 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { contactsReducer } from "./contactsSlice";
-import { filtersReducer } from "./filtersSlice";
-import storage from "redux-persist/lib/storage";
 import {
   persistStore,
   persistReducer,
@@ -12,29 +9,23 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { contactsReducer } from "./contactsSlice";
+import { filtersReducer } from "./filtersSlice";
 
-const persistedContactsReducer = persistReducer(
-  {
-    key: "contacts",
-    storage,
-    whitelist: ["items"],
-  },
-  contactsReducer
-);
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage,
+  whitelist: ["items"],
+};
 
-const persistedFiltersReducer = persistReducer(
-  {
-    key: "filters",
-    storage,
-    whitelist: ["status"],
-  },
-  filtersReducer
-);
+const persistedReducer = persistReducer(persistConfig, contactsReducer);
 
 export const store = configureStore({
   reducer: {
-    contacts: persistedContactsReducer,
-    filters: persistedFiltersReducer,
+    contacts: persistedReducer,
+    filter: filtersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -45,3 +36,41 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+// import { configureStore } from "@reduxjs/toolkit";
+// import { contactsReducer } from "./contactsSlice";
+// import { filtersReducer } from "./filtersSlice";
+// import storage from "redux-persist/lib/storage";
+// import {
+//   persistStore,
+//   persistReducer,
+//   FLUSH,
+//   REHYDRATE,
+//   PAUSE,
+//   PERSIST,
+//   PURGE,
+//   REGISTER,
+// } from "redux-persist";
+
+// const persistedContactsReducer = persistReducer(
+//   {
+//     key: "contacts",
+//     storage,
+//     whitelist: ["items"],
+//   },
+//   contactsReducer
+// );
+
+// export const store = configureStore({
+//   reducer: {
+//     contacts: persistedContactsReducer,
+//   },
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: {
+//         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//       },
+//     }),
+// });
+
+// export const persistor = persistStore(store);
